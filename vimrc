@@ -236,5 +236,13 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 
 " Check PHP syntax
 map <D-right> :!php -l %<CR>
-map <D-up> :!php %<CR>
+map <D-up> :call RunPHP()<CR>
 
+function! RunPHP ()
+  let filename = expand("%")
+  exe 'enew'
+  exe 'set buftype=nofile'
+  exe 'setlocal noswapfile'
+  exe 'r!/Applications/MAMP/bin/php/php5.3.13/bin/php '.filename
+  exe 'norm gg'
+endfunction
