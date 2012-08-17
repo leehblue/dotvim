@@ -8,6 +8,7 @@ let mapleader = ","
 filetype on
 filetype plugin on
 filetype indent on
+syntax enable
 
 "---------------------------------------------------------------------------
 " Vunlde configuration
@@ -26,6 +27,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-surround'
 Bundle 'edsono/vim-matchit'
 Bundle 'vim-scripts/taglist.vim'
+Bundle 'StanAngeloff/php.vim'
 
 "---------------------------------------------------------------------------
 " standard configuration
@@ -80,9 +82,6 @@ set showcmd
 " Show the current mode
 set showmode
 
-" Switch on syntax highlighting.
-syntax on
-
 " Hide the mouse pointer while typing
 set mousehide
 
@@ -112,6 +111,8 @@ set history=100
 
 " These commands open folds
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+
+set foldmethod=manual
 
 " When the page starts to scroll, keep the cursor 8 lines from the top and 8
 " lines from the bottom
@@ -146,9 +147,18 @@ nmap <silent> ,n :set invhls<CR>:set hls?<CR>
 nmap <silent> ,w :set invwrap<CR>:set wrap?<CR>
 
 " Toggle NERDTree 
-map <silent> ,d :execute 'NERDTreeToggle ' . getcwd()<CR>
-"map <silent> ,d :NERDTreeToggle<CR>
+map <silent> ,p :execute 'NERDTreeToggle ' . getcwd()<CR>
 
+" Make the NERDTree window a little wider
+let g:NERDTreeWinSize = 40 
+
+" Toggle taglist
+map <silent> ,v :execute 'TlistToggle'<CR>
+
+" SnipMate Reload snippets
+nmap ,rr :call ReloadSnippets(&filetype)<CR>
+
+" Flush Command-T
 map <silent> ,f :execute 'CommandTFlush'<CR>
 
 " Map CTRL-E to do what ',' used to do
@@ -165,11 +175,17 @@ nmap <silent> ,sv :so $MYVIMRC<CR>
 " Syntax coloring lines that are too long just slows down the world
 set synmaxcol=2048
 
+" Set F3 to toggle paste mode
+set pt=<F3> 
+
+" Convert file to HTML from markdown and place generated HTML in buffer
+map ,mdc :!m2h.php % \| pbcopy <CR>
+
 "-----------------------------------------------------------------------------
 " Set up the window colors and size
 "-----------------------------------------------------------------------------
 if has("gui_running")
-    set guifont=Monaco:h11
+    set guifont=Menlo:h13
     colorscheme jellybeans
     if !exists("g:vimrcloaded")
         winpos 0 0
@@ -182,3 +198,43 @@ if has("gui_running")
     endif
 endif
 :nohls
+
+
+"---------------------------------------------------------------------------
+" PHP mappings
+"---------------------------------------------------------------------------
+
+" PHP function reference
+function! OpenPhpFunction (keyword)
+  let proc_keyword = substitute(a:keyword , '_', '-', 'g')
+  try
+    exe 'pedit'
+  catch /.*/
+  endtry
+  exe 'wincmd P'
+  exe 'enew'
+  exe "set buftype=nofile"
+  exe "setlocal noswapfile"
+  exe 'silent r!lynx -dump -nolist http://us3.php.net/'.proc_keyword
+  exe 'norm gg'
+"  exe 'call search("____________________________________")'
+  exe 'call search("Description")'
+  exe 'norm dgg'
+  exe 'call search("User Contributed Notes")'
+  exe 'norm dGgg'
+endfunction
+inoremap <D-d> <Esc>h:call OpenPhpFunction('<c-r><c-w>')<CR>:wincmd p<CR>la
+nnoremap <D-d> :call OpenPhpFunction('<c-r><c-w>')<CR>:wincmd p<CR>
+vnoremap <D-d> :call OpenPhpFunction('<c-r><c-w>')<CR>:wincmd p<CR>
+
+" Close window above
+inoremap <D-e> <C-\><C-O><C-w>k<C-\><C-O>:q<CR>
+nmap <D-e> <C-w>k:q<CR>
+
+" PHP auto complete
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+
+" Check PHP syntax
+map <D-right> :!php -l %<CR>
+map <D-up> :!php %<CR>
+
