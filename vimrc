@@ -28,6 +28,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'edsono/vim-matchit'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'StanAngeloff/php.vim'
+" Bundle 'mileszs/ack.vim'
 
 "---------------------------------------------------------------------------
 " standard configuration
@@ -121,8 +122,8 @@ set scrolloff=8
 " Make the command-line completion better
 set wildmenu
 
-" Set the textwidth to be 120 chars
-set textwidth=120
+" Set the textwidth to be unlimited
+set textwidth=0
 
 " Turn tabs into spaces
 set expandtab
@@ -144,7 +145,9 @@ nmap <silent> ,md :!mkdir -p %:p:h<CR>
 nmap <silent> ,n :set invhls<CR>:set hls?<CR>
 
 " set text wrapping toggles
-nmap <silent> ,w :set invwrap<CR>:set wrap?<CR>
+" nmap <silent> ,w :set invwrap<CR>:set wrap?<CR>
+set wrap
+set linebreak
 
 " Toggle NERDTree 
 map <silent> ,p :execute 'NERDTreeToggle ' . getcwd()<CR>
@@ -153,7 +156,7 @@ map <silent> ,p :execute 'NERDTreeToggle ' . getcwd()<CR>
 let g:NERDTreeWinSize = 40 
 
 " Toggle taglist
-map <silent> ,v :execute 'TlistToggle'<CR>
+map <silent> ,mt :execute 'TlistToggle'<CR>
 
 " SnipMate Reload snippets
 nmap ,rr :call ReloadSnippets(&filetype)<CR>
@@ -186,13 +189,18 @@ map ,mdc :!m2h.php % \| pbcopy <CR>
 "-----------------------------------------------------------------------------
 if has("gui_running")
     set guifont=Menlo:h13
-    colorscheme jellybeans
+    set background=dark
+    colorscheme moria
     if !exists("g:vimrcloaded")
         winpos 0 0
         if ! &diff
-            winsize 130 90
+            "winsize 130 90
+            set columns=180
+            set lines=76
         else
-            winsize 227 90
+            "winsize 227 90
+            set columns=180
+            set lines=76
         endif
         let g:vimrcloaded = 1
     endif
@@ -235,14 +243,18 @@ nmap <D-e> <C-w>k:q<CR>
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 
 " Check PHP syntax
-map <D-right> :!php -l %<CR>
-map <D-up> :call RunPHP()<CR>
+map ,ml :!/Applications/MAMP/bin/php/php5.3.13/bin/php -l %<CR>
+map ,mo :call RunPHP()<CR>
 
 function! RunPHP ()
-  let filename = expand("%")
+  let filename = expand("%:p")
+  let root = getcwd()
+  exe 'cd %:p:h'
+  " exe 'echomsg filename'
   exe 'enew'
   exe 'set buftype=nofile'
   exe 'setlocal noswapfile'
-  exe 'r!/Applications/MAMP/bin/php/php5.3.13/bin/php '.filename
+  exe 'r!/Applications/MAMP/bin/php/php5.3.13/bin/php ' . filename
   exe 'norm gg'
+  exe 'cd ' . root
 endfunction
