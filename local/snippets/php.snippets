@@ -2,21 +2,21 @@ snippet rlog
 	R66_Log::write('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] ${1}");
 snippet rchoice
 	${1:$field} = new R66_Form_${2:Select}();
-	$1->label = '${3:label}';
+	$1->label = __('${3:label}', 'cart66');
 	$1->container = '${4:container}';
 	$1->attribute = '${5:attribute}';
-	$1->description = '${6:Help Text}';
+	$1->description = __('${6:Help Text}', 'cart66');
 	$1->required = ${7:false};
 	$1->inline = ${8:true};
 	$1->add_option('${9:value}', '${10:text}', ${11:false});
 	$1->valid = false;
 	echo $1->get_html();${12}
 snippet rtext
-	${1:$field} = new R66_Form_${2:Text};
-	$1->label = '${3:label}';
+	${1:$field} = new R66_Form_${2:Text}();
+	$1->label = __('${3:label}', 'cart66');
 	$1->container = '${4:container}';
 	$1->attribute = '${5:attribute}';
-	$1->description = '${6:Help Text}';
+	$1->description = __('${6:Help Text}', 'cart66');
 	$1->value = '${7}';
 	$1->required = ${8:false};
 	$1->valid = false;
