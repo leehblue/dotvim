@@ -10,6 +10,9 @@ filetype plugin on
 filetype indent on
 syntax enable
 
+" Add a custom directory to vim runtime path
+set runtimepath+=~/.vim/local
+
 "---------------------------------------------------------------------------
 " Vunlde configuration
 "---------------------------------------------------------------------------
@@ -21,14 +24,21 @@ Bundle 'gmarik/vundle'
 " GitHub repos
 Bundle 'flazz/vim-colorschemes'
 Bundle 'torandu/vim-bufexplorer'
-Bundle 'msanders/snipmate.vim'
 Bundle 'wincent/Command-T'
 Bundle 'scrooloose/nerdtree'
 Bundle 'tpope/vim-surround'
 Bundle 'edsono/vim-matchit'
 Bundle 'vim-scripts/taglist.vim'
 Bundle 'StanAngeloff/php.vim'
-" Bundle 'mileszs/ack.vim'
+
+" Install snipmate dependencies:
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "honza/snipmate-snippets"
+
+" Install snipmate:
+Bundle "garbas/vim-snipmate"
+
 
 "---------------------------------------------------------------------------
 " standard configuration
@@ -159,7 +169,7 @@ let g:NERDTreeWinSize = 40
 map <silent> ,mt :execute 'TlistToggle'<CR>
 
 " SnipMate Reload snippets
-nmap ,rr :call ReloadSnippets(&filetype)<CR>
+" nmap ,rr :call ReloadSnippets(&filetype)<CR>
 
 " Flush Command-T
 map <silent> ,f :execute 'CommandTFlush'<CR>
@@ -258,3 +268,14 @@ function! RunPHP ()
   exe 'norm gg'
   exe 'cd ' . root
 endfunction
+
+
+"---------------------------------------------------------------------------
+" UltiSnips settings
+"---------------------------------------------------------------------------
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "LeeSnips"]
+
+

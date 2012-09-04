@@ -1,0 +1,57 @@
+snippet bft Text field
+	<!-- ${1:container}[${2:attribute}] -->
+	<div class="control-group question">
+	  <label for="$1_$2" class="control-label"><?php _e('${3:$2}', '${4:cart66}'); ?></label>
+	  <div class="controls input">
+		<input type="text" name="$1[$2]" value="${5}" id="$1_$2">
+		<p class="help-block"><?php _e( '${6:Help Text}', '$4'); ?></p>
+	  </div>
+	</div>
+	<!-- ^^^^^ $1[$2] ^^^^^^ -->
+snippet bfta Textarea 
+	<!-- ${1:container}[${2:attribute}] -->
+	<div class="control-group question">
+	  <label for="$1_$2" class="control-label"><?php _e('${3:$2}', '${4:cart66}'); ?></label>
+	  <div class="controls input">
+		<textarea name="$1[$2]" id="$1_$2"></textarea>
+		<p class="help-block"><?php _e( '${5:Help Text}', '$4'); ?></p>
+	  </div>
+	</div>
+	<!-- ^^^^^ $1[$2] ^^^^^^ -->
+snippet bfrc Radio/Checkbox
+	<!-- ${1:container}[${2:attribute}] -->
+	<div class="control-group question">
+	  <label class="control-label"><?php _e('${3:$2}', '${4:cart66}'); ?></label>
+	  <div class="controls input choice">
+		<label class="${5:radio|checkbox}${6}"><input type="$5" name="$1[$2]" id="$1_$2" value="${7}"><?php _e('${8}', '$4'); ?></label>
+		${10:bfl}
+		<p class="help-block"><?php _e( '${9:Help Text}', '$4'); ?></p>
+	  </div>
+	</div>
+	<!-- ^^^^^ $1[$2] ^^^^^^ -->
+snippet bfyn yes/no
+	<!-- ${1:container}[${2:attribute}] -->
+	<div class="control-group question">
+	  <label class="control-label"><?php _e('${3:$2}', '${4:cart66}'); ?></label>
+	  <div class="controls input choice">
+		<label class="radio inline"><input type="radio" name="$1[$2]" id="$1_$2_yes" value="${5:1}"><?php _e('${6:yes}', '$4'); ?></label>
+		<label class="radio inline"><input type="radio" name="$1[$2]" id="$1_$2_no" value="${7:0}"><?php _e('${8:no}', '$4'); ?></label>
+		<p class="help-block"><?php _e('${9:Help Text}', '$4'); ?></p>
+	  </div>
+	</div>
+	<!-- ^^^^^ $1[$2] ^^^^^^ -->
+snippet bfs Select
+	<!-- ${1:container}[${2:attribute}] -->
+	<div class="control-group question">
+	  <label for="$1_$2" class="control-label"><?php _e('${3:$2}', '${4:cart66}'); ?></label>
+	  <div class="controls input choice">
+		<select name="$1[$2]" id="$1_$2">
+		  <option value="${5}"><?php _e('${6}', '$4'); ?></option>
+		  ${8}
+		</select>
+		<p class="help-block"><?php _e('${7:Help Text}', '$4'); ?></p>
+	  </div>
+	</div>
+	<!-- ^^^^^ $1[$2] ^^^^^^ -->
+snippet bfl
+	<label class="${1:radio|checkbox}${2}"><input type="$1" name="${3:container}[${4:attribute}]" id="$3_$4" value="${5}"><?php _e('${6:$5}', '${7:cart66}'); ?></label>${8}
